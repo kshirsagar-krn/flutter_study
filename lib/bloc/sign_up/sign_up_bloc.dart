@@ -11,3 +11,4 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     });
   }
 }
+// git code
