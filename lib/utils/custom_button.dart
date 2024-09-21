@@ -5,6 +5,8 @@ import 'theme.dart';
 enum ButtonType { fillButton, outlineButton, onlyText }
 
 class CustomButton extends StatelessWidget {
+  final bool isLoading;
+  final bool isDisable;
   final ButtonType buttonType;
   final double? width;
   final String buttonText;
@@ -18,6 +20,8 @@ class CustomButton extends StatelessWidget {
 
   CustomButton({
     super.key,
+    this.isLoading = false,
+    this.isDisable = false,
     required this.buttonText,
     required this.onClick,
     this.width,
@@ -35,7 +39,7 @@ class CustomButton extends StatelessWidget {
     // Common Container properties for all button types
     final containerDecoration = BoxDecoration(
       color: buttonType == ButtonType.fillButton
-          ? (bckColor ?? primary)
+          ? isDisable ? Colors.grey.shade400 :  (bckColor ?? primary)
           : Colors.transparent,
       gradient: colors.isNotEmpty
           ? LinearGradient(
@@ -53,12 +57,14 @@ class CustomButton extends StatelessWidget {
           fontSize: textFontSize ?? 14,
           color: textColor ??
               (buttonType == ButtonType.fillButton
-                  ? Colors.white
+                  ? isDisable ? Colors.grey.shade800 :  Colors.white
                   : Colors.black87),
         );
 
     // Common Text widget for all button types
-    final buttonTextWidget = Text(
+    final buttonTextWidget = isLoading ? const SizedBox(
+      height: 20, width: 20,
+        child: CircularProgressIndicator(strokeWidth: 2, color: primary,)) : Text(
       buttonText,
       textAlign: TextAlign.center,
       style: textStyle,

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -8,6 +7,7 @@ import 'widgets/maintance_screen.dart';
 import 'widgets/network_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   // await Init().initialize();
   runApp(const MyApp());
 }

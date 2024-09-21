@@ -178,9 +178,14 @@ class _RezorpayOnlinePaymentState extends State<RezorpayOnlinePayment> {
             height: 16,
           ),
           CustomButton(
-            onClick: () {
-              double payAmount = double.parse(_paymentController.text);
-              rezorpayController.onPay(payment: double.parse( _paymentController.text));
+            isDisable: _paymentController.text.isEmpty,
+            isLoading: rezorpayController.isLoading,
+            onClick: () async {
+              // Navigator.pop(context);
+              if(_paymentController.text.isNotEmpty){
+                double payAmount = double.parse(_paymentController.text);
+                await rezorpayController.onPay(payment: double.parse( _paymentController.text));
+              }
             },
             buttonText: 'Payment Now',
             textFontSize: 13,
@@ -206,9 +211,9 @@ class _RezorpayOnlinePaymentState extends State<RezorpayOnlinePayment> {
             buttonType: ButtonType.onlyText,
             buttonRadius: 4,
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          // const SizedBox(
+          //   height: 16,
+          // ),
         ],
       ),
     );

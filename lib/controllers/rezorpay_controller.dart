@@ -9,6 +9,8 @@ import '../widgets/pymt _suss_dialogue.dart';
 
 class RezorpayController extends GetxController {
   late Razorpay _razorpay;
+  bool isLoading = false;
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -24,29 +26,40 @@ class RezorpayController extends GetxController {
     // TODO: implement dispose
     super.dispose();
     _razorpay.clear();
+    isLoading = false;
+    update();
   }
 
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
+    isLoading = false;
+    update();
     log("Success");
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
+    isLoading = false;
+    update();
     log("payment failed");
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet was selected
+    isLoading = false;
+    update();
     log("message");
   }
 
   //checkout
   onPay({double? payment})  {
+    isLoading = true;
+    update();
+    String payPrice = "${payment?.toInt()}00";
     var options = {
       'key': 'rzp_test_4JAFO6rrSmwQpM', // payment key
-      'amount': payment?.toStringAsFixed(3),
+      'amount': double.parse(payPrice),
       'name': 'Fake Store',
       'description': 'Fake Store is type of template just for studies',
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
@@ -55,6 +68,8 @@ class RezorpayController extends GetxController {
     try {
       _razorpay.open(options);
     } catch (e) {
+      isLoading = false;
+      update();
       log("$e ----------Payment error");
     }
   }
